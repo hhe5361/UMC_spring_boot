@@ -2,8 +2,8 @@ package study.demo.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
-import study.demo.domain.Terms;
-import study.demo.domain.Users;
+import study.demo.domain.Term;
+import study.demo.domain.User;
 import study.demo.domain.common.BaseEntity;
 
 @Entity
@@ -18,9 +18,9 @@ public class UserAgree extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
-    private Users user;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "terms_id")
-    private Terms term;
+    private Term term;
 }

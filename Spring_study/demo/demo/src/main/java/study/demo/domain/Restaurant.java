@@ -3,8 +3,8 @@ package study.demo.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import study.demo.domain.common.BaseEntity;
-import study.demo.domain.mapping.Missions;
-import study.demo.domain.mapping.Reviews;
+import study.demo.domain.mapping.Mission;
+import study.demo.domain.mapping.Review;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Restaurants extends BaseEntity {
+public class Restaurant extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -30,9 +30,16 @@ public class Restaurants extends BaseEntity {
     private String longitude;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private List<Missions> missionsList = new ArrayList<>();
+    private List<Mission> missionList = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private List<Reviews> reviewsList = new ArrayList<>();
+    private List<Review> reviewList = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    private Region region;
+
+    public void SetRegion(Region region) {
+        this.region = region;
+    }
 }

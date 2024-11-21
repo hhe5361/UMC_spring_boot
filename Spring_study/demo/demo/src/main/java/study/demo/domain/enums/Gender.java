@@ -1,5 +1,5 @@
 package study.demo.domain.enums;
 
 public enum Gender {
-    Male,FEMALE
+    Male,FEMALE,NONE
 }

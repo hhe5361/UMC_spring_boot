@@ -2,14 +2,17 @@ package study.demo.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import study.demo.domain.common.BaseEntity;
 import study.demo.domain.enums.Gender;
 import study.demo.domain.enums.MemberStatus;
 import study.demo.domain.enums.SocialType;
-import study.demo.domain.mapping.Reviews;
+import study.demo.domain.mapping.Review;
 import study.demo.domain.mapping.UserAgree;
-import study.demo.domain.mapping.UserMissions;
-import study.demo.domain.mapping.UserPreferCategories;
+import study.demo.domain.mapping.UserMission;
+import study.demo.domain.mapping.UserPreferCategory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,13 +23,17 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Users extends BaseEntity {
+@DynamicUpdate
+@DynamicInsert
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 20)
     private String name;
+
+    private Integer age;
 
     @Column(nullable = false, length = 40)
     private String address;
@@ -36,11 +43,11 @@ public class Users extends BaseEntity {
 
     private LocalDate inactiveDate;
 
-    @Column(nullable = false, length = 50)
+   // @Column(nullable = false, length = 50)
     private String email;
 
-    @Column(nullable = false, length = 20)
-    private int point;
+    @ColumnDefault("0")
+    private Integer point;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(10)")
@@ -57,11 +64,11 @@ public class Users extends BaseEntity {
     private List<UserAgree> userAgreeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserPreferCategories> userPreferList = new ArrayList<>();
+    private List<UserPreferCategory> userPreferList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Reviews> reviewList = new ArrayList<>();
+    private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserMissions> memberMissionList = new ArrayList<>();
+    private List<UserMission> memberMissionList = new ArrayList<>();
 }
