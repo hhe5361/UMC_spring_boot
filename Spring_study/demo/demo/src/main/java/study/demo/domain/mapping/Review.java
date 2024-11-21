@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.*;
+import study.demo.domain.FoodCategory;
 import study.demo.domain.Restaurant;
 import study.demo.domain.User;
 import study.demo.domain.common.BaseEntity;
@@ -16,8 +17,8 @@ import study.demo.domain.common.BaseEntity;
 public class Review extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private long id;
+
     @Column(nullable = false, length = 50)
     private String content;
 
@@ -32,4 +33,13 @@ public class Review extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+
+    public void SetUser(User user) {
+        this.user = user;
+    }
+
+    public void SetRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
 }
