@@ -4,9 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.*;
-import org.apache.catalina.User;
-import study.demo.domain.Restaurants;
-import study.demo.domain.Users;
+import study.demo.domain.Restaurant;
+import study.demo.domain.User;
 import study.demo.domain.common.BaseEntity;
 
 @Entity
@@ -14,7 +13,7 @@ import study.demo.domain.common.BaseEntity;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Reviews extends BaseEntity {
+public class Review extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -28,9 +27,9 @@ public class Reviews extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private Users user;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
-    private Restaurants restaurant;
+    private Restaurant restaurant;
 }

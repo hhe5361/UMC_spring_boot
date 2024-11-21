@@ -19,7 +19,9 @@ public enum ErrorStatus implements BaseErrorCode {
     //related with member error
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST,"MEMBER4001","NO USER EXISTED"),
     NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST,"MEMBER4002" , "NICKNAME IS REQUIRED"),
-    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트");
+    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),
+    FOOD_CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST,"FOOD4003","NO FOOD category found"),
+    REGISON_NOT_FOUND(HttpStatus.BAD_REQUEST,"FOOD4004","NO REGION found");
 
     private final HttpStatus httpStatus;
     private final String code;

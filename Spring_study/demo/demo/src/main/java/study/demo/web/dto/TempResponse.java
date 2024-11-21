@@ -21,6 +21,4 @@ public class TempResponse {
     public static class TempExceptionDTO{
         String flag;
     }
-
-
 }
