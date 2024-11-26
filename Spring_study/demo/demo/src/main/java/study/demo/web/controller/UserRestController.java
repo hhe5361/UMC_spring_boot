@@ -21,4 +21,10 @@ public class UserRestController {
         User user = userCommandService.joinUser(request);
         return ApiResponse.onSuccess(UserConverter.toJoinResultDTO(user)); //user qkerh requset converter ehfflsms smRla/
     }
+
+    @PostMapping("/{userId}/mission")
+    public ApiResponse<UserResponseDTO.AddMissionResultDTO> addMission(@PathVariable("userId") Long userId, @Valid @RequestBody UserRequestDTO.AddDTO request){
+        User user = userCommandService.addMission(request);
+        return ApiResponse.onSuccess(UserConverter.toAddMissionResultDTO(user));
+    }
 }

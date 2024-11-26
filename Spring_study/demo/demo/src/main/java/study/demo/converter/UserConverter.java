@@ -45,5 +45,11 @@ public class UserConverter {
                 .point(0)
                 .build();
     }
+
+    public static UserResponseDTO.AddMissionResultDTO toAddMissionResultDTO(User user) {
+        return UserResponseDTO.AddMissionResultDTO.builder()
+                        .userId(user.getId())
+                                .updatedAt(LocalDateTime.now()).build();
+    }
 }
 

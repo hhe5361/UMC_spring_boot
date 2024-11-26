@@ -20,11 +20,14 @@ public class UserMission extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MissionStatus status;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="mission_id")
     private Mission mission;
+
 }

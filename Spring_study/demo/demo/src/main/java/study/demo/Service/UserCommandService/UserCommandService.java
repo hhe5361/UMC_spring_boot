@@ -5,4 +5,5 @@ import study.demo.web.dto.UserRequestDTO;
 
 public interface UserCommandService {
     User joinUser(UserRequestDTO.JoinDto request);
+    User addMission(UserRequestDTO.AddDTO request);
 }
