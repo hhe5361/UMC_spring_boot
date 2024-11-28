@@ -39,10 +39,10 @@ public class ReviewResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ReviewPreviewDTO{
-        String ownerNickName;
+        String ownerNickName = null;
+        String restaurantName = null;
         Float rating;
         String content;
         LocalDate createAt;
-
     }
 }

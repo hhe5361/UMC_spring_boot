@@ -1,12 +1,24 @@
 package study.demo.web.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import study.demo.Service.UserCommandService.UserCommandService;
 import study.demo.apiPayload.ApiResponse;
+import study.demo.converter.ReviewConverter;
 import study.demo.converter.UserConverter;
 import study.demo.domain.User;
+import study.demo.domain.mapping.Review;
+import study.demo.validation.annotation.ExistUser;
+import study.demo.validation.annotation.ValidPageIndex;
+import study.demo.web.dto.ReviewResponseDTO;
 import study.demo.web.dto.UserRequestDTO;
 import study.demo.web.dto.UserResponseDTO;
 
@@ -28,5 +40,25 @@ public class UserRestController {
     public ApiResponse<UserResponseDTO.AddMissionResultDTO> addMission(@PathVariable("userId") Long userId, @Valid @RequestBody UserRequestDTO.AddDTO request){
         User user = userCommandService.addMission(request);
         return ApiResponse.onSuccess(UserConverter.toAddMissionResultDTO(user));
+    }
+
+    @GetMapping("/{userId}/review")
+    @Operation(summary = "Getting spesific user review list", description = "You can Use also Paging. send Pagenumber In form of Query string")
+    @ApiResponses(
+            {@io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH003", description = "access 토큰을 주세요!",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH004", description = "acess 토큰 만료",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH006", description = "acess 토큰 모양이 이상함",content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+            }
+    )
+    @Parameters(
+            {
+                    @Parameter(name="userId", description = "userid is path variable.")
+            }
+    )
+    public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getUserReviewList(@PathVariable("userId") @ExistUser Long userId, @RequestParam("page") @ValidPageIndex Integer page){
+        Page<Review> reviewList = userCommandService.getUserReviewList(userId, page);
+
+        return ApiResponse.onSuccess(ReviewConverter.toReviewPreViewListDTO(reviewList));
     }
 }

@@ -2,12 +2,11 @@ package study.demo.Service.UserCommandService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
-import study.demo.Repository.FoodCategoryRepository;
-import study.demo.Repository.MissionRepository;
-import study.demo.Repository.UserMissionRepository;
-import study.demo.Repository.UserRepository;
+import study.demo.Repository.*;
 import study.demo.apiPayload.code.status.ErrorStatus;
 import study.demo.apiPayload.exception.handler.FoodCategoryHandler;
 import study.demo.converter.UserConverter;
@@ -16,6 +15,7 @@ import study.demo.converter.UserPreferConverter;
 import study.demo.domain.FoodCategory;
 import study.demo.domain.User;
 import study.demo.domain.mapping.Mission;
+import study.demo.domain.mapping.Review;
 import study.demo.domain.mapping.UserMission;
 import study.demo.domain.mapping.UserPreferCategory;
 import study.demo.web.dto.UserRequestDTO;
@@ -31,6 +31,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final FoodCategoryRepository foodCategoryRepository;
     private final UserMissionRepository userMissionRepository;
     private final MissionRepository missionRepository;
+    private final ReviewRepository reviewRepository;
 
     @Override
     @Transactional
@@ -64,6 +65,15 @@ public class UserCommandServiceImpl implements UserCommandService {
         return user;
     }
 
+    @Override
+    public Page<Review> getUserReviewList(Long userId, Integer page) {
+        //get user And review list
+        User user = userRepository.findById(userId).get();
+
+        //Get review List
+        Page<Review> review = reviewRepository.findAllByUser(user, PageRequest.of(page, 10));
+        return review;
+    }
 }
 
 //user object를 만드는 작업를 서비스? service에서 만들지 converter에서 만들지도 정해야 한다.

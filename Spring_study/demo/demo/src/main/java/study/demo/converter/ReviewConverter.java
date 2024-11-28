@@ -28,6 +28,7 @@ public class ReviewConverter {
     public static ReviewResponseDTO.ReviewPreviewDTO toReviewPreviewDTO(Review review){
         return ReviewResponseDTO.ReviewPreviewDTO.builder()
                 .ownerNickName(review.getUser().getName())
+                .restaurantName(review.getRestaurant().getName())
                 .content(review.getContent())
                 .createAt(review.getCreatedAt().toLocalDate())
                 .content(review.getContent())
