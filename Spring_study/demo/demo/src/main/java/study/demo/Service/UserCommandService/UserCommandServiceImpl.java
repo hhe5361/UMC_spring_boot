@@ -49,15 +49,18 @@ public class UserCommandServiceImpl implements UserCommandService {
 
     @Override
     public User addMission(UserRequestDTO.AddDTO request) {
-        //요기는 valid 사용 안했어용
+        //experiment. -> In that case of that throw error in Service .
+        //get User and Get Mission by each Id.
+        //if Mission is already added in to user mission list, then valid annoation is activate.
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
         Mission mission = missionRepository.findById(request.getMissionId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid mission ID"));
 
-        UserMission userMission = UserMissionConverter.AddMissiontoUserMission(request,user,mission);
+        //user and service -> UserMission . I think you don't have to do this logic
+        UserMission userMission = UserMissionConverter.AddMissiontoUserMission(user,mission);
         userMissionRepository.save(userMission);
-
+        //question . If i saved Usermission in Db, Then user entity that has usermission list also update?
         return user;
     }
 

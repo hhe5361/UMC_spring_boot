@@ -2,17 +2,17 @@ package study.demo.validation.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import study.demo.validation.validator.IsNotAddMissionValidator;
+import study.demo.validation.validator.PageIndexValidator;
 import study.demo.validation.validator.RestaurantExistValidator;
 
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = IsNotAddMissionValidator.class)
-@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
+@Constraint(validatedBy = PageIndexValidator.class)
+@Target({ElementType.METHOD,ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface IsNotAddMission {
-    String message() default "Mission can't add. It already exist.";
+public @interface ValidPageIndex {
+    String message() default "restaurant is not exist";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

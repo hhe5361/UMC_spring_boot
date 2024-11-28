@@ -8,6 +8,4 @@ import study.demo.domain.mapping.UserMission;
 
 public interface UserMissionRepository extends JpaRepository<UserMission, Long> {
     boolean existsByUserAndMission(User user, Mission mission);
-
-    boolean existsByUserAndMission(@NotBlank Long userId, @NotBlank Long missionId);
 }

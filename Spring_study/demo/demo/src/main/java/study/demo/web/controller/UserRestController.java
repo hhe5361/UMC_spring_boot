@@ -22,6 +22,8 @@ public class UserRestController {
         return ApiResponse.onSuccess(UserConverter.toJoinResultDTO(user)); //user qkerh requset converter ehfflsms smRla/
     }
 
+    //add mission list if you want to update user mission status, use put http method
+    //should i use DTO ? in that case? very simple case. just get Userid and Mission id
     @PostMapping("/{userId}/mission")
     public ApiResponse<UserResponseDTO.AddMissionResultDTO> addMission(@PathVariable("userId") Long userId, @Valid @RequestBody UserRequestDTO.AddDTO request){
         User user = userCommandService.addMission(request);
