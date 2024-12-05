@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import study.demo.Repository.MissionRepository;
 import study.demo.Repository.UserMissionRepository;
+import study.demo.Repository.UserRepository;
+import study.demo.apiPayload.code.status.ErrorStatus;
+import study.demo.domain.User;
 import study.demo.domain.enums.MissionStatus;
 import study.demo.domain.mapping.Mission;
 import study.demo.domain.mapping.UserMission;
@@ -15,17 +18,15 @@ import study.demo.web.dto.UserRequestDTO;
 @Component
 @RequiredArgsConstructor
 public class IsNotAddMissionValidator implements ConstraintValidator<IsNotAddMission, UserRequestDTO.AddDTO> {
-    //ㄷ
+    //you shold modify here ! you should not call repository here!
     private final MissionRepository missionRepository;
     private final UserMissionRepository userMissionRepository;
+    private final UserRepository userRepository;
 
     @Override
     public boolean isValid(UserRequestDTO.AddDTO request, ConstraintValidatorContext context) {
-//        if (request == null || request.getMissionId() == null || request.getUserId() == null) {
-//            return false;
-//        } -> 어차피 request에서 해줄거긴 함.
 
-        //is missin exist?
+        //is missin exist? 사ㄹ service에서 이차 검증  하고  있긴  해ㅐㅐ
         Mission mission = missionRepository.findById(request.getMissionId()).orElse(null);
         if(mission == null) {
             context.buildConstraintViolationWithTemplate("Mission is not exist")
@@ -33,8 +34,8 @@ public class IsNotAddMissionValidator implements ConstraintValidator<IsNotAddMis
                     .addConstraintViolation();
             return false;
         }
-
-        boolean alreadyAdded = userMissionRepository.existsByUserAndMission(request.getUserId(), request.getMissionId());
+        User user = userRepository.findById(request.getUserId()).orElse(null);
+        boolean alreadyAdded = userMissionRepository.existsByUserAndMission(user,mission);
         if(alreadyAdded) {
             context.buildConstraintViolationWithTemplate("Mission is already exist")
                     .addConstraintViolation();

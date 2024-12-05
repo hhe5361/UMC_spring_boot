@@ -8,7 +8,7 @@ import study.demo.validation.annotation.ExistUser;
 public class ReviewRequestDTO {
 
     @Getter
-    public static class RegisterDTO{
+    public static class WriteDTO {
         @NotBlank
         String content;
 

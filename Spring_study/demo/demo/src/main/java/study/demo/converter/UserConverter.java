@@ -2,6 +2,8 @@ package study.demo.converter;
 
 import study.demo.domain.User;
 import study.demo.domain.enums.Gender;
+import study.demo.domain.mapping.UserMission;
+import study.demo.web.dto.MissionResponse;
 import study.demo.web.dto.UserRequestDTO;
 import study.demo.web.dto.UserResponseDTO;
 
