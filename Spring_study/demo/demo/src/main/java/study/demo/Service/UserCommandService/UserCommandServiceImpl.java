@@ -14,6 +14,7 @@ import study.demo.converter.UserMissionConverter;
 import study.demo.converter.UserPreferConverter;
 import study.demo.domain.FoodCategory;
 import study.demo.domain.User;
+import study.demo.domain.enums.MissionStatus;
 import study.demo.domain.mapping.Mission;
 import study.demo.domain.mapping.Review;
 import study.demo.domain.mapping.UserMission;
@@ -35,7 +36,7 @@ public class UserCommandServiceImpl implements UserCommandService {
 
     @Override
     @Transactional
-    public User joinUser(UserRequestDTO.JoinDto request){
+    public User joinUser(UserRequestDTO.JoinDto request) {
         User newUser = UserConverter.toUser(request); //DTO -> USER converter using
         List<FoodCategory> foodCategoryList = request.getPreferCategory().stream() //is food category is validtae?
                 .map(category -> {
@@ -43,7 +44,9 @@ public class UserCommandServiceImpl implements UserCommandService {
                 }).toList();
 
         List<UserPreferCategory> userPreferList = UserPreferConverter.toUserPreferList(foodCategoryList);
-        userPreferList.forEach(items -> {items.SetUser(newUser);});
+        userPreferList.forEach(items -> {
+            items.SetUser(newUser);
+        });
 
         return userRepository.save(newUser);
     }
@@ -59,7 +62,7 @@ public class UserCommandServiceImpl implements UserCommandService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid mission ID"));
 
         //user and service -> UserMission . I think you don't have to do this logic
-        UserMission userMission = UserMissionConverter.AddMissiontoUserMission(user,mission);
+        UserMission userMission = UserMissionConverter.AddMissiontoUserMission(user, mission);
         userMissionRepository.save(userMission);
         //question . If i saved Usermission in Db, Then user entity that has usermission list also update?
         return user;
@@ -74,6 +77,14 @@ public class UserCommandServiceImpl implements UserCommandService {
         Page<Review> review = reviewRepository.findAllByUser(user, PageRequest.of(page, 10));
         return review;
     }
-}
 
-//user object를 만드는 작업를 서비스? service에서 만들지 converter에서 만들지도 정해야 한다.
+    @Override
+    public Page<UserMission> getUserMissionList(Long userId, MissionStatus missionStatus, Integer page) {
+        //user id , mission status  받고 status = status인 usermission 반환.
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+
+        Page<UserMission> userMissions = userMissionRepository.findByUserAndStatus(user, missionStatus,PageRequest.of(page,10));
+        return userMissions;
+    }
+}

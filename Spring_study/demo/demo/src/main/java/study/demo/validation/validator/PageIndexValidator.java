@@ -7,6 +7,8 @@ import study.demo.validation.annotation.ValidPageIndex;
 public class PageIndexValidator implements ConstraintValidator<ValidPageIndex,Integer> {
     @Override
     public boolean isValid(Integer index, ConstraintValidatorContext constraintValidatorContext) {
-        return index > 0;
+
+        return index >= 1 ;
     }
+
 }
